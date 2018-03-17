@@ -17,7 +17,6 @@
 #include <gtkmm/aboutdialog.h>
 
 #include <PuzzleSolverWindow.h>
-#include <Injector.h>
 
 PuzzleSolverWindow::PuzzleSolverWindow(goatnative::Injector &injector) {
     puzzleMaker = injector.getInstance<IPuzzleMaker>();
