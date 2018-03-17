@@ -24,6 +24,9 @@
 
 #include <Worker.h>
 #include <INotifiable.h>
+#include <IPuzzleMaker.h>
+#include <IPuzzleSolver.h>
+#include <Injector.h>
 
 class PuzzleSolverWindow : public Gtk::ApplicationWindow, INotifiable {
 private:
@@ -44,8 +47,11 @@ private:
     Worker worker;
     std::unique_ptr<std::thread> workerThread;
 
+    std::shared_ptr<IPuzzleMaker> puzzleMaker;
+    std::shared_ptr<IPuzzleSolver> puzzleSolver;
+
 public:
-    PuzzleSolverWindow();
+    PuzzleSolverWindow(goatnative::Injector &);
 
     virtual ~PuzzleSolverWindow() = default;
 
@@ -66,7 +72,7 @@ private:
 
     void onAboutDialogResponse(int response_id);
 
-    bool onAppQuit(GdkEventAny*);
+    bool onAppQuit(GdkEventAny *);
 
 
     void updateButtons(bool);

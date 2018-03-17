@@ -17,8 +17,11 @@
 #include <gtkmm/aboutdialog.h>
 
 #include <PuzzleSolverWindow.h>
+#include <Injector.h>
 
-PuzzleSolverWindow::PuzzleSolverWindow() {
+PuzzleSolverWindow::PuzzleSolverWindow(goatnative::Injector &injector) {
+    puzzleMaker = injector.getInstance<IPuzzleMaker>();
+
     workerThread = nullptr;
     ui = {Gtk::Builder::create_from_file("resources/PuzzleSolverUI.glade")};
     this->set_icon(Gdk::Pixbuf::create_from_file("resources/images/logo.png", -1, 40, true));
@@ -108,7 +111,10 @@ void PuzzleSolverWindow::onMenuItemOpenImageActivate() {
     filter_any->add_pattern("*");
     dialog.add_filter(filter_any);
 
-    if (dialog.run() == Gtk::RESPONSE_OK) imagePuzzle->set(Gdk::Pixbuf::create_from_file(dialog.get_filename(), 600, 600, true));
+    if (dialog.run() == Gtk::RESPONSE_OK) {
+        auto response = puzzleMaker->getPuzzle(dialog.get_filename(), {}, 5);
+        imagePuzzle->set(Gdk::Pixbuf::create_from_file(response->first, 600, 600, true));
+    }
 }
 
 bool PuzzleSolverWindow::checkWidgets(std::initializer_list<Glib::RefPtr<Gtk::Widget>> widgets) {
@@ -201,8 +207,6 @@ void PuzzleSolverWindow::onAboutDialogResponse(int response_id) {
 bool PuzzleSolverWindow::onAppQuit(GdkEventAny *any_event) {
     Gtk::MessageDialog msgDialog(*this, "Are you sure you want to close?", false, Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_OK_CANCEL);
     auto response = msgDialog.run();
-
-    std::cout << response << " " << Gtk::RESPONSE_OK << std::endl;
 
     if (response == Gtk::RESPONSE_OK) {
         onQuit();

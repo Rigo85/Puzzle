@@ -10,5 +10,8 @@
 // AGPL (http:www.gnu.org/licenses/agpl-3.0.txt) for more details.
 //
 
-#include <Utils.h>
+#include <PuzzleSolverImpl.h>
 
+std::tuple<float, uint, bool, std::vector<std::pair<int, int>>> PuzzleSolverImpl::solvePuzzle() const {
+    return std::make_tuple(0.0f, 0u, false, std::vector<std::pair<int, int>>());
+}

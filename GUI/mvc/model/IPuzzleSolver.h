@@ -20,5 +20,5 @@ public:
 
     virtual ~IPuzzleSolver() = default;
 
-    std::tuple<float, uint, bool, std::vector<std::pair<int, int>>> solvePuzzle() const = 0;
+    virtual std::tuple<float, uint, bool, std::vector<std::pair<int, int>>> solvePuzzle() const = 0;
 };

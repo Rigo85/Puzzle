@@ -12,6 +12,15 @@
 
 #pragma once
 
-class Utils {
+#include <vector>
 
+#include <IPuzzleSolver.h>
+
+class PuzzleSolverImpl : public IPuzzleSolver {
+public:
+    PuzzleSolverImpl() = default;
+
+    virtual ~PuzzleSolverImpl() = default;
+
+    std::tuple<float, uint, bool, std::vector<std::pair<int, int>>> solvePuzzle() const override;
 };

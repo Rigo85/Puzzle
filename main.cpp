@@ -11,11 +11,23 @@
 //
 
 #include <gtkmm.h>
+
+#include <Injector.h>
+
 #include <PuzzleSolverWindow.h>
+#include <PuzzleMakerImpl.h>
+#include <PuzzleSolverImpl.h>
 
 int main(int argc, char *argv[]) {
     auto app = Gtk::Application::create(argc, argv);
-    PuzzleSolverWindow window;
+
+    goatnative::Injector injector;
+    injector.registerClass<PuzzleMakerImpl>();
+    injector.registerClass<PuzzleSolverImpl>();
+    injector.registerInterface<IPuzzleMaker, PuzzleMakerImpl>();
+    injector.registerInterface<IPuzzleSolver, PuzzleSolverImpl>();
+
+    PuzzleSolverWindow window(injector);
 
     return app->run(window);
 }

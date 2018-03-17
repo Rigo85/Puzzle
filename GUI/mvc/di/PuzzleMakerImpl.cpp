@@ -10,13 +10,12 @@
 // AGPL (http:www.gnu.org/licenses/agpl-3.0.txt) for more details.
 //
 
-#pragma once
+#include <PuzzleMakerImpl.h>
+#include <PuzzleMaker.h>
 
-#include <IPuzzleMaker.h>
-
-class PuzzleMakerImplementation : public IPuzzleMaker{
-public:
-    PuzzleMakerImplementation() = default;
-    virtual ~PuzzleMakerImplementation() = default;
-    virtual std::optional<output_pair> getPuzzle(const std::string &, const pairs &, const uint &);
-};
+std::optional<output_pair> PuzzleMakerImpl::getPuzzle(
+        const std::string &fileName,
+        const pairs &distribution,
+        const uint &side) const {
+    return PuzzleMaker::getPuzzle(fileName, distribution, side);
+}
